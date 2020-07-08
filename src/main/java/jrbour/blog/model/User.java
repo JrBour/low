@@ -1,7 +1,11 @@
 package jrbour.blog.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Date;
 
 @Entity
 public class User {
@@ -18,6 +22,12 @@ public class User {
     private String password;
 
     private Role role;
+
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 
     public User(){}
 
@@ -59,5 +69,21 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

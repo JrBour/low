@@ -24,6 +24,12 @@ public class Post {
 
     private Category category;
 
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
+
     public Post(){}
 
     public Post(String title, String content, User author, Category category){
@@ -31,6 +37,7 @@ public class Post {
         this.content = content;
         this.author = author;
         this.category = category;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -75,5 +82,21 @@ public class Post {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
