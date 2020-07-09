@@ -2,11 +2,13 @@ package jrbour.blog.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
+@Table(name="Categories")
 public class Category {
     @Id
     @GeneratedValue
@@ -15,7 +17,8 @@ public class Category {
     @NotNull
     private String name;
 
-    private ArrayList<Post> posts = new ArrayList<Post>();
+    @OneToMany(cascade=ALL, mappedBy="category", targetEntity=Post.class)
+    private Set<Post> posts = new HashSet<Post>();
 
     public Category(){}
 
@@ -39,12 +42,11 @@ public class Category {
         this.name = name;
     }
 
-    @OneToMany(cascade=ALL, mappedBy="category")
-    public ArrayList<Post> getPosts() {
+    public Set<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(ArrayList<Post> posts) {
+    public void setPosts(HashSet<Post> posts) {
         this.posts = posts;
     }
 }

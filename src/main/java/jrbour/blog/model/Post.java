@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
 
+@Entity
+@Table(name="posts")
 public class Post {
 
     @Id
@@ -17,11 +19,14 @@ public class Post {
     private String title;
 
     @NotNull
-    @Min(10)
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name="author_id", nullable=false)
     private User author;
 
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable=false)
     private Category category;
 
     @CreationTimestamp
@@ -37,7 +42,6 @@ public class Post {
         this.content = content;
         this.author = author;
         this.category = category;
-        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -64,8 +68,6 @@ public class Post {
         this.content = content;
     }
 
-    @ManyToOne
-    @JoinColumn(name="author_id", nullable=false)
     public User getAuthor() {
         return author;
     }
@@ -74,8 +76,6 @@ public class Post {
         this.author = author;
     }
 
-    @ManyToOne
-    @JoinColumn(name="category_id", nullable=false)
     public Category getCategory() {
         return category;
     }

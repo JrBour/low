@@ -10,6 +10,12 @@ services:
       - postgresql
     ports:
       - 9090:9090
+  adminer:
+    image: adminer
+    container_name: java-adminer
+    restart: always
+    ports:
+      - 8080:8080
   postgresql:
     container_name: java-postgresql
     image: postgres

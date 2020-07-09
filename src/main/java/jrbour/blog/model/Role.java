@@ -2,12 +2,13 @@ package jrbour.blog.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
+@Table(name="roles")
 public class Role {
     @Id
     @GeneratedValue
@@ -16,7 +17,8 @@ public class Role {
     @NotNull
     private String name;
 
-    private List<User> users = new ArrayList<User>();
+    @OneToMany(cascade=ALL, mappedBy="role", targetEntity=User.class)
+    private Set<User> users = new HashSet<>();
 
     public Role(){}
 
@@ -40,12 +42,11 @@ public class Role {
         this.name = name;
     }
 
-    @OneToMany(cascade=ALL, mappedBy="role")
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(HashSet<User> users) {
         this.users = users;
     }
 }

@@ -5,9 +5,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Date;
 
 @Entity
+@Table(name="users")
 public class User {
 
     @Id
@@ -21,6 +24,11 @@ public class User {
     @NotNull
     private String password;
 
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="author", targetEntity=Post.class)
+    private Set<Post> posts = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name="role_id", nullable=false)
     private Role role;
 
     @CreationTimestamp
@@ -61,10 +69,8 @@ public class User {
         this.password = password;
     }
 
-    @ManyToOne
-    @JoinColumn(name="role_id", nullable=false)
     public Role getRole() {
-        return role;
+        return this.role;
     }
 
     public void setRole(Role role) {
@@ -85,5 +91,13 @@ public class User {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 }
