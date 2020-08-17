@@ -27,8 +27,8 @@ public class User {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="author", targetEntity=Post.class)
     private Set<Post> posts = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name="role_id", nullable=false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name="role_id")
     private Role role;
 
     @CreationTimestamp

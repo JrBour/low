@@ -8,7 +8,7 @@ import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
-@Table(name="Categories")
+@Table(name="categories")
 public class Category {
     @Id
     @GeneratedValue
