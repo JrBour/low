@@ -38,13 +38,15 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<String> addUser(@RequestBody User user){
+    public ResponseEntity<Optional<User>> addUser(@RequestBody User user){
         Optional<Role> role = this.roleDao.findById(user.getRole().getId());
-//        User userAdded = this.userDao.save(user);
-//
-//        if (userAdded == null)
-//            return ResponseEntity.status(400).build();
+        user.setRole(role.stream().findFirst().get());
 
-        return ResponseEntity.status(204).body("cc");
+        User userAdded = this.userDao.save(user);
+
+        if (userAdded == null)
+            return ResponseEntity.status(400).build();
+
+        return ResponseEntity.status(201).body(this.userDao.findById(userAdded.getId()));
     }
 }
