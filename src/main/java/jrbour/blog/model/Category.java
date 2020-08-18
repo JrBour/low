@@ -1,5 +1,7 @@
 package jrbour.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.HashSet;
@@ -17,6 +19,7 @@ public class Category {
     @NotNull
     private String name;
 
+    @JsonBackReference
     @OneToMany(cascade=ALL, mappedBy="category", targetEntity=Post.class)
     private Set<Post> posts = new HashSet<Post>();
 

@@ -1,5 +1,6 @@
 package jrbour.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,6 +26,7 @@ public class User {
     @NotNull
     private String password;
 
+    @JsonBackReference
     @OneToMany(cascade=CascadeType.ALL, mappedBy="author", targetEntity=Post.class)
     private Set<Post> posts = new HashSet<>();
 
