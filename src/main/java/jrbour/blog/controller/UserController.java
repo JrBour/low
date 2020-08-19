@@ -26,10 +26,10 @@ public class UserController {
         this.roleDao = roleDao;
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @GetMapping("/users")
     public List<User> all(){
@@ -45,7 +45,7 @@ public class UserController {
     public ResponseEntity<Optional<User>> addUser(@RequestBody User user){
         Optional<Role> role = this.roleDao.findById(user.getRole().getId());
         user.setRole(role.stream().findFirst().get());
-//        user.setPassword(this.passwordEncoder().encode(user.getPassword()));
+        user.setPassword(this.passwordEncoder().encode(user.getPassword()));
         User userAdded = this.userDao.save(user);
 
         return ResponseEntity.status(201).body(this.userDao.findById(userAdded.getId()));
