@@ -8,8 +8,4 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CategoryDao extends JpaRepository<Category, Integer> {
-    List<Category> findAll();
-    Optional<Category> findById(Integer integer);
-    Category save(Category category);
-}
+public interface CategoryDao extends JpaRepository<Category, Integer> { }

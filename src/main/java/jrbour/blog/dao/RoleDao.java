@@ -8,8 +8,4 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RoleDao extends JpaRepository<Role, Integer> {
-    List<Role> findAll();
-    Optional<Role> findById(Integer integer);
-    Role save(Role role);
-}
+public interface RoleDao extends JpaRepository<Role, Integer> { }

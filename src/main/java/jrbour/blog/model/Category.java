@@ -19,6 +19,8 @@ public class Category {
     @NotNull
     private String name;
 
+    // Lazy fetch = on demand
+    // Eager fetch = Load with the rest of the fields
     @JsonBackReference
     @OneToMany(cascade=ALL, mappedBy="category", targetEntity=Post.class)
     private Set<Post> posts = new HashSet<Post>();

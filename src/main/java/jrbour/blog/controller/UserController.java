@@ -5,12 +5,16 @@ import jrbour.blog.dao.UserDao;
 import jrbour.blog.model.Role;
 import jrbour.blog.model.User;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@Configuration
 @RestController
 public class UserController {
 
@@ -41,11 +45,8 @@ public class UserController {
     public ResponseEntity<Optional<User>> addUser(@RequestBody User user){
         Optional<Role> role = this.roleDao.findById(user.getRole().getId());
         user.setRole(role.stream().findFirst().get());
-
+//        user.setPassword(this.passwordEncoder().encode(user.getPassword()));
         User userAdded = this.userDao.save(user);
-
-        if (userAdded == null)
-            return ResponseEntity.status(400).build();
 
         return ResponseEntity.status(201).body(this.userDao.findById(userAdded.getId()));
     }

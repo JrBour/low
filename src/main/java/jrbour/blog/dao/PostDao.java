@@ -8,8 +8,4 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PostDao extends JpaRepository<Post, Integer> {
-    List<Post> findAll();
-    Optional<Post> findById(Integer integer);
-    Post save(Post post);
-}
+public interface PostDao extends JpaRepository<Post, Integer> { }

@@ -4,10 +4,9 @@ import jrbour.blog.dao.RoleDao;
 import jrbour.blog.model.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 public class RoleController {
@@ -17,6 +16,9 @@ public class RoleController {
     public RoleController(RoleDao roleDao){
         this.roleDao = roleDao;
     }
+
+    @GetMapping("/roles/{id}")
+    public Optional<Role> one (@PathVariable int id){ return this.roleDao.findById(id); }
 
     @PostMapping("/roles")
     public ResponseEntity<Role> addRole(@RequestBody Role role){
