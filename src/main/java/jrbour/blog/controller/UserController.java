@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> all(){
+    public List<User> getAll(){
         return this.userDao.findAll();
     }
 
@@ -51,4 +51,10 @@ public class UserController {
         return ResponseEntity.status(201).body(this.userDao.findById(userAdded.getId()));
     }
 
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> remove(@PathVariable int id) {
+        this.userDao.deleteById(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }
