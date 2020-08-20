@@ -1,18 +1,19 @@
 package jrbour.blog.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.Date;
 
 @Entity
 @Table(name="users")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User {
 
     @Id
@@ -26,7 +27,6 @@ public class User {
     @NotNull
     private String password;
 
-    @JsonBackReference
     @OneToMany(cascade=CascadeType.ALL, mappedBy="author", targetEntity=Post.class)
     private Set<Post> posts = new HashSet<>();
 

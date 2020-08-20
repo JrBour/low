@@ -1,6 +1,7 @@
 package jrbour.blog.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -11,6 +12,7 @@ import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Table(name="categories")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Category {
     @Id
     @GeneratedValue
@@ -21,7 +23,6 @@ public class Category {
 
     // Lazy fetch = on demand
     // Eager fetch = Load with the rest of the fields
-    @JsonBackReference
     @OneToMany(cascade=ALL, mappedBy="category", targetEntity=Post.class)
     private Set<Post> posts = new HashSet<Post>();
 

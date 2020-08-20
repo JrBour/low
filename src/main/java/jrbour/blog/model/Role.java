@@ -1,6 +1,8 @@
 package jrbour.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -11,6 +13,7 @@ import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Table(name="roles")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Role {
     @Id
     @GeneratedValue
@@ -19,7 +22,6 @@ public class Role {
     @NotNull
     private String name;
 
-    @JsonBackReference
     @OneToMany(cascade=ALL, mappedBy="role", targetEntity=User.class)
     private Set<User> users = new HashSet<>();
 
