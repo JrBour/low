@@ -50,4 +50,5 @@ public class UserController {
 
         return ResponseEntity.status(201).body(this.userDao.findById(userAdded.getId()));
     }
+
 }
