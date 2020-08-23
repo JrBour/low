@@ -53,6 +53,7 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> remove(@PathVariable int id) {
+        //Handle error if the id doesn't exist
         this.userDao.deleteById(id);
 
         return ResponseEntity.noContent().build();
