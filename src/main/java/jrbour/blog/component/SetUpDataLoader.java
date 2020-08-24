@@ -11,10 +11,11 @@ import javax.transaction.Transactional;
 
 // A component is a class that can be autodetect by Spring for dependency injection
 // For spring, a Service, Repository and a Controller are Component too
+// We use ApplicationListener<ContextRefreshedEvent> for call the class SetUpDataLoader at the beginning when we run the app
 @Component
 public class SetUpDataLoader implements ApplicationListener<ContextRefreshedEvent> {
     // Flag for launch or not the fixtures
-    boolean alreadySetup = false;
+    boolean alreadySetup = true;
 
     // Autowiring is used for use dependency injection directly from  property instead of use a constructor
     @Autowired

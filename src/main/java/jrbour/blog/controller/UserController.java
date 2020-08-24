@@ -6,6 +6,7 @@ import jrbour.blog.model.Role;
 import jrbour.blog.model.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,7 +49,7 @@ public class UserController {
         user.setPassword(this.passwordEncoder().encode(user.getPassword()));
         User userAdded = this.userDao.save(user);
 
-        return ResponseEntity.status(201).body(this.userDao.findById(userAdded.getId()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userDao.findById(userAdded.getId()));
     }
 
     @DeleteMapping("/users/{id}")
