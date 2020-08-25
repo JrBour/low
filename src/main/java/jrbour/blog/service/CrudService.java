@@ -12,24 +12,28 @@ import java.util.List;
 public class CrudService<S> {
 
     @Autowired
-    private CrudRepository<S, Integer> repository;
+    private final CrudRepository<S, Integer> repository;
+
+    public CrudService(CrudRepository<S, Integer> repository) {
+        this.repository = repository;
+    }
 
     public S findById(Integer id){
-        return repository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
     public S save(S entity){
-        return repository.save(entity);
+        return this.repository.save(entity);
     }
 
     public List<S> findAll(){
-        return (List<S>) repository.findAll();
+        return (List<S>) this.repository.findAll();
     }
 
     public void deleteById(Integer id){
-//        if(repository.existsById(id))
-            repository.deleteById(id);
-//        else
-//            throw new NotFoundException(id);
+        if(this.repository.existsById(id))
+            this.repository.deleteById(id);
+        else
+            throw new NotFoundException(id);
     }
 }

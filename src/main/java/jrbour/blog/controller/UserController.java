@@ -19,14 +19,12 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    private final CrudService<User> userDao;
+    @Autowired
+    private CrudService<User> userDao;
 
-    private final CrudService<Role> roleDao;
+    @Autowired
+    private CrudService<Role> roleDao;
 
-    public UserController(CrudService<User> userDao, CrudService<Role> roleDao){
-        this.userDao = userDao;
-        this.roleDao = roleDao;
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
