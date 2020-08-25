@@ -1,9 +1,9 @@
 package jrbour.blog.controller;
 
-import jrbour.blog.dao.RoleDao;
-import jrbour.blog.dao.UserDao;
 import jrbour.blog.model.Role;
 import jrbour.blog.model.User;
+import jrbour.blog.service.CrudService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -19,10 +19,11 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    private final UserDao userDao;
-    private final RoleDao roleDao;
+    private final CrudService<User> userDao;
 
-    public UserController(UserDao userDao, RoleDao roleDao){
+    private final CrudService<Role> roleDao;
+
+    public UserController(CrudService<User> userDao, CrudService<Role> roleDao){
         this.userDao = userDao;
         this.roleDao = roleDao;
     }
@@ -38,14 +39,14 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Optional<User> one(@PathVariable int id){
+    public User one(@PathVariable int id){
         return this.userDao.findById(id);
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Optional<User>> addUser(@RequestBody User user){
-        Optional<Role> role = this.roleDao.findById(user.getRole().getId());
-        user.setRole(role.stream().findFirst().get());
+    public ResponseEntity<User> addUser(@RequestBody User user){
+        Role role = this.roleDao.findById(user.getRole().getId());
+        user.setRole(role);
         user.setPassword(this.passwordEncoder().encode(user.getPassword()));
         User userAdded = this.userDao.save(user);
 
