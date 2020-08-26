@@ -17,6 +17,7 @@ import java.util.List;
 
 @Configuration
 @RestController
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     @Autowired
@@ -30,17 +31,17 @@ public class UserController {
         return new BCryptPasswordEncoder();
     }
 
-    @GetMapping("/users")
-    public List<User> getAll(){
+    @GetMapping
+    public List<User> getUsers(){
         return this.userService.findAll();
     }
 
-    @GetMapping("/users/{id}")
-    public User one(@PathVariable int id){
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable int id){
         return this.userService.findById(id);
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user){
         Role role = this.roleService.findById(user.getRole().getId());
         user.setRole(role);
@@ -50,9 +51,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.findById(userAdded.getId()));
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable int id) {
-        //Handle error if the id doesn't exist
         this.userService.deleteById(id);
 
         return ResponseEntity.noContent().build();
