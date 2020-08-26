@@ -2,7 +2,8 @@ package jrbour.blog.controller;
 
 import jrbour.blog.model.Role;
 import jrbour.blog.model.User;
-import jrbour.blog.service.CrudService;
+import jrbour.blog.service.RoleService;
+import jrbour.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,18 +14,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Configuration
 @RestController
 public class UserController {
 
     @Autowired
-    private CrudService<User> userDao;
+    private UserService userService;
 
     @Autowired
-    private CrudService<Role> roleDao;
-
+    private RoleService roleService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,28 +32,28 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getAll(){
-        return this.userDao.findAll();
+        return this.userService.findAll();
     }
 
     @GetMapping("/users/{id}")
     public User one(@PathVariable int id){
-        return this.userDao.findById(id);
+        return this.userService.findById(id);
     }
 
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody User user){
-        Role role = this.roleDao.findById(user.getRole().getId());
+        Role role = this.roleService.findById(user.getRole().getId());
         user.setRole(role);
         user.setPassword(this.passwordEncoder().encode(user.getPassword()));
-        User userAdded = this.userDao.save(user);
+        User userAdded = this.userService.save(user);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.userDao.findById(userAdded.getId()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.findById(userAdded.getId()));
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> remove(@PathVariable int id) {
         //Handle error if the id doesn't exist
-        this.userDao.deleteById(id);
+        this.userService.deleteById(id);
 
         return ResponseEntity.noContent().build();
     }

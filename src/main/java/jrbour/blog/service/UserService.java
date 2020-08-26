@@ -1,33 +1,31 @@
 package jrbour.blog.service;
 
+import jrbour.blog.dao.UserDao;
 import jrbour.blog.exception.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
+import jrbour.blog.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// S = Entity
 @Service
-public class CrudService<S> {
+public class UserService {
 
-    @Autowired
-    private final CrudRepository<S, Integer> repository;
+    private final UserDao repository;
 
-    public CrudService(CrudRepository<S, Integer> repository) {
+    public UserService(UserDao repository) {
         this.repository = repository;
     }
 
-    public S findById(Integer id){
+    public User findById(Integer id){
         return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
-    public S save(S entity){
+    public User save(User entity){
         return this.repository.save(entity);
     }
 
-    public List<S> findAll(){
-        return (List<S>) this.repository.findAll();
+    public List<User> findAll(){
+        return this.repository.findAll();
     }
 
     public void deleteById(Integer id){

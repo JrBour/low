@@ -11,7 +11,7 @@ import java.util.Optional;
 @RestController
 public class RoleController {
 
-    private RoleDao roleDao;
+    private RoleService roleService;
 
     public RoleController(RoleDao roleDao){
         this.roleDao = roleDao;
