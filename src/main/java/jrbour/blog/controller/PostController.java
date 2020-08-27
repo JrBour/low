@@ -1,7 +1,9 @@
 package jrbour.blog.controller;
 
 import jrbour.blog.model.Post;
+import jrbour.blog.model.User;
 import jrbour.blog.service.PostService;
+import jrbour.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public List<Post> getPosts(){
         return this.postService.findAll();
@@ -25,7 +30,16 @@ public class PostController {
     public ResponseEntity<Post> getPost(@PathVariable int id){
         Post post = this.postService.findById(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(post);
+        return ResponseEntity.ok(post);
+    }
+
+    @PostMapping
+    public ResponseEntity<Post> addPost(@RequestBody Post post){
+        User author = this.userService.findById(post.getAuthor().getId());
+        post.setAuthor(author);
+        this.postService.save(post);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
 
     @DeleteMapping("/{id}")
