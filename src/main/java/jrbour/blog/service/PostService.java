@@ -18,8 +18,8 @@ public class PostService {
         return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
-    public Post save(Post entity){
-        return this.repository.save(entity);
+    public void save(Post entity){
+        this.repository.save(entity);
     }
 
     public List<Post> findAll(){

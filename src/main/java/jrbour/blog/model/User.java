@@ -17,7 +17,7 @@ import java.util.Date;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Email

@@ -15,10 +15,11 @@ import static javax.persistence.CascadeType.ALL;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Category {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id;
 
     @NotNull
+    @Column(unique=true)
     private String name;
 
     // Lazy fetch = on demand
@@ -34,10 +35,6 @@ public class Category {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
