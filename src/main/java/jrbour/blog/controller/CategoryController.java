@@ -34,4 +34,13 @@ public class CategoryController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Category> editCategory(@PathVariable int id, @RequestBody Category category){
+        Category categoryToEdit = this.categoryService.findById(id);
+        categoryToEdit.setName(category.getName());
+        this.categoryService.save(categoryToEdit);
+
+        return ResponseEntity.ok(categoryToEdit);
+    }
 }
