@@ -18,8 +18,8 @@ public class ControllerAdvisor  extends ResponseEntityExceptionHandler {
     }
 
     // TODO : Change message
-//    @ExceptionHandler(ConstraintViolationException.class)
-//    protected ResponseEntity<Object> handlePSQLException(ConstraintViolationException ex, WebRequest req) {
-//        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, req);
-//    }
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<Object> handlePSQLException(ConstraintViolationException ex, WebRequest req) {
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, req);
+    }
 }
