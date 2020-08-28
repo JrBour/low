@@ -1,7 +1,9 @@
 package jrbour.blog.controller;
 
+import jrbour.blog.model.Category;
 import jrbour.blog.model.Post;
 import jrbour.blog.model.User;
+import jrbour.blog.service.CategoryService;
 import jrbour.blog.service.PostService;
 import jrbour.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class PostController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping
     public List<Post> getPosts(){
         return this.postService.findAll();
@@ -36,7 +41,9 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post){
         User author = this.userService.findById(post.getAuthor().getId());
+        Category category = this.categoryService.findById(post.getCategory().getId());
         post.setAuthor(author);
+        post.setCategory(category);
         this.postService.save(post);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
