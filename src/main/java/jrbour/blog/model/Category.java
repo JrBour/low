@@ -15,7 +15,7 @@ import static javax.persistence.CascadeType.ALL;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Category {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue
     private int id;
 
     @NotNull
