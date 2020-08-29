@@ -1,6 +1,7 @@
 package jrbour.blog.exception;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.core.NestedExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,16 @@ public class ControllerAdvisor  extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleNotFoundException(NotFoundException ex, WebRequest req) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("error", "Not found - " + ex.getMessage());
+
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.NOT_FOUND, req);
     }
 
     // TODO : Change message
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<Object> handlePSQLException(ConstraintViolationException ex, WebRequest req) {
-        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, req);
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("error", "Constraint violation");
+//        String message = NestedExceptionUtils.getMostSpecificCause(ex).getMessage();
+        return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, req);
     }
 }
