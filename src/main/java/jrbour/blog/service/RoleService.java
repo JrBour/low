@@ -16,7 +16,7 @@ public class RoleService {
     }
 
     public Role findById(Integer id){
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id, "role"));
     }
 
     public Role save(Role entity){

@@ -17,7 +17,7 @@ public class CategoryService {
     }
 
     public Category findById(Integer id){
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id, "category"));
     }
 
     public Category save(Category entity){
@@ -32,6 +32,6 @@ public class CategoryService {
         if(this.repository.existsById(id))
             this.repository.deleteById(id);
         else
-            throw new NotFoundException(id);
+            throw new NotFoundException(id, "category");
     }
 }

@@ -18,7 +18,7 @@ public class ControllerAdvisor  extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<Object> handleNotFoundException(NotFoundException ex, WebRequest req) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("error", "Bad request - " + ex.getMessage());
+        body.put("error", "Not found - " + ex.getMessage());
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.NOT_FOUND, req);
     }
 

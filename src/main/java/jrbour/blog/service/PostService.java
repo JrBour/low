@@ -15,7 +15,7 @@ public class PostService {
     private PostDao repository;
 
     public Post findById(Integer id){
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id, "post"));
     }
 
     public void save(Post entity){
@@ -30,6 +30,6 @@ public class PostService {
         if(this.repository.existsById(id))
             this.repository.deleteById(id);
         else
-            throw new NotFoundException(id);
+            throw new NotFoundException(id, "post");
     }
 }

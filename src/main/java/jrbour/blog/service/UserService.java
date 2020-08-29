@@ -17,7 +17,7 @@ public class UserService {
     }
 
     public User findById(Integer id){
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id, "user"));
     }
 
     public User save(User entity){
@@ -32,6 +32,6 @@ public class UserService {
         if(this.repository.existsById(id))
             this.repository.deleteById(id);
         else
-            throw new NotFoundException(id);
+            throw new NotFoundException(id, "user");
     }
 }
