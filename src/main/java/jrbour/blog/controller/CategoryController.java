@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,14 +30,14 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> addCategory(@RequestBody Category category){
+    public ResponseEntity<Category> addCategory(@Valid @RequestBody Category category){
         this.categoryService.save(category);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Category> editCategory(@PathVariable int id, @RequestBody Category category){
+    public ResponseEntity<Category> editCategory(@PathVariable int id, @Valid @RequestBody Category category){
         Category categoryToEdit = this.categoryService.findById(id);
         categoryToEdit.setName(category.getName());
         this.categoryService.save(categoryToEdit);

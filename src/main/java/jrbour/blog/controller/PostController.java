@@ -6,11 +6,13 @@ import jrbour.blog.model.User;
 import jrbour.blog.service.CategoryService;
 import jrbour.blog.service.PostService;
 import jrbour.blog.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -39,7 +41,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Post> addPost(@RequestBody Post post){
+    public ResponseEntity<Post> addPost(@Valid @RequestBody Post post){
         User author = this.userService.findById(post.getAuthor().getId());
         Category category = this.categoryService.findById(post.getCategory().getId());
         post.setAuthor(author);
