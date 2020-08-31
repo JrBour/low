@@ -2,10 +2,12 @@ package jrbour.blog.service;
 
 import jrbour.blog.dao.CategoryDao;
 import jrbour.blog.exception.NotFoundException;
+import jrbour.blog.exception.NotFoundUUIDException;
 import jrbour.blog.model.Category;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CategoryService {
@@ -16,8 +18,8 @@ public class CategoryService {
         this.repository = repository;
     }
 
-    public Category findById(Integer id){
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id, "category"));
+    public Category findById(UUID id){
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundUUIDException(id, "category"));
     }
 
     public Category save(Category entity){
@@ -28,10 +30,10 @@ public class CategoryService {
         return this.repository.findAll();
     }
 
-    public void deleteById(Integer id){
+    public void deleteById(UUID id){
         if(this.repository.existsById(id))
             this.repository.deleteById(id);
         else
-            throw new NotFoundException(id, "category");
+            throw new NotFoundUUIDException(id, "category");
     }
 }

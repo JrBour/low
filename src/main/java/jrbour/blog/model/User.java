@@ -1,4 +1,4 @@
-package jrbour.blog.model;
+package jrbour.blog.model;int
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

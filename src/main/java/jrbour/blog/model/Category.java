@@ -2,11 +2,13 @@ package jrbour.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static javax.persistence.CascadeType.ALL;
 
@@ -15,8 +17,9 @@ import static javax.persistence.CascadeType.ALL;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Category {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @NotNull
     @Column(unique=true)
@@ -33,7 +36,7 @@ public class Category {
         this.name = name;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 

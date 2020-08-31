@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -23,7 +24,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategory(@PathVariable int id){
+    public ResponseEntity<Category> getCategory(@PathVariable UUID id){
         Category category = this.categoryService.findById(id);
 
         return ResponseEntity.ok(category);
@@ -37,7 +38,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Category> editCategory(@PathVariable int id, @Valid @RequestBody Category category){
+    public ResponseEntity<Category> editCategory(@PathVariable UUID id, @Valid @RequestBody Category category){
         Category categoryToEdit = this.categoryService.findById(id);
         categoryToEdit.setName(category.getName());
         this.categoryService.save(categoryToEdit);
@@ -46,7 +47,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable int id){
+    public ResponseEntity<Void> deleteCategory(@PathVariable UUID id){
         this.categoryService.deleteById(id);
 
         return ResponseEntity.noContent().build();

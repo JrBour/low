@@ -10,9 +10,12 @@ import java.util.UUID;
 
 @Repository
 public interface PostDao extends JpaRepository<Post, UUID> {
+    @Override
     Optional<Post> findById(UUID integer);
 
+    @Override
     boolean existsById(UUID integer);
 
+    @Override
     void deleteById(UUID integer);
 }

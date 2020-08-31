@@ -10,11 +10,13 @@ import java.util.UUID;
 
 @Repository
 @Primary
-public interface UserDao extends JpaRepository<User, Integer> {
-
+public interface UserDao extends JpaRepository<User, UUID> {
+    @Override
     Optional <User> findById(UUID id);
 
+    @Override
     void deleteById(UUID integer);
 
+    @Override
     boolean existsById(UUID integer);
 }
