@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -34,7 +35,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPost(@PathVariable int id){
+    public ResponseEntity<Post> getPost(@PathVariable UUID id){
         Post post = this.postService.findById(id);
 
         return ResponseEntity.ok(post);
@@ -52,7 +53,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
         this.postService.deleteById(id);
 
         return ResponseEntity.noContent().build();

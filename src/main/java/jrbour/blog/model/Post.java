@@ -3,11 +3,13 @@ package jrbour.blog.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name="posts")
@@ -15,8 +17,9 @@ import java.util.Date;
 public class Post {
 
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(generator="UUID")
+    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(length=125)
     private String title;
@@ -47,12 +50,8 @@ public class Post {
         this.category = category;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {

@@ -1,12 +1,13 @@
 package jrbour.blog.service;
 
 import jrbour.blog.dao.PostDao;
-import jrbour.blog.exception.NotFoundException;
+import jrbour.blog.exception.NotFoundUUIDException;
 import jrbour.blog.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PostService {
@@ -14,8 +15,8 @@ public class PostService {
     @Autowired
     private PostDao repository;
 
-    public Post findById(Integer id){
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id, "post"));
+    public Post findById(UUID id){
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundUUIDException(id, "post"));
     }
 
     public void save(Post entity){
@@ -26,10 +27,10 @@ public class PostService {
         return this.repository.findAll();
     }
 
-    public void deleteById(Integer id){
+    public void deleteById(UUID id){
         if(this.repository.existsById(id))
             this.repository.deleteById(id);
         else
-            throw new NotFoundException(id, "post");
+            throw new NotFoundUUIDException(id, "post");
     }
 }
