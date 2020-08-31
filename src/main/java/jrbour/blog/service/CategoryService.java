@@ -1,7 +1,6 @@
 package jrbour.blog.service;
 
 import jrbour.blog.dao.CategoryDao;
-import jrbour.blog.exception.NotFoundException;
 import jrbour.blog.exception.NotFoundUUIDException;
 import jrbour.blog.model.Category;
 import org.springframework.stereotype.Service;

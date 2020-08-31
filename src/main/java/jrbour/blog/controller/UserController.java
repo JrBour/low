@@ -1,14 +1,20 @@
 package jrbour.blog.controller;
 
+import jrbour.blog.model.JwtRequest;
 import jrbour.blog.model.Role;
 import jrbour.blog.model.User;
 import jrbour.blog.service.RoleService;
 import jrbour.blog.service.UserService;
+import jrbour.blog.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +34,12 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -41,6 +53,25 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUser(@PathVariable UUID id){
         return this.userService.findById(id);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody JwtRequest jwtRequest) throws Exception{
+        this.authenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
+
+//        String token = jwtTokenUtil.generateToken();
+
+        return ResponseEntity.ok("coucou");
+    }
+
+    private void authenticate(String email, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        } catch(DisabledException ex){
+            throw new Exception("DISABLED_USER", ex);
+        } catch(AuthenticationException ex){
+            throw new Exception("INVALID_CREDENTIALS", ex);
+        }
     }
 
     @PostMapping
