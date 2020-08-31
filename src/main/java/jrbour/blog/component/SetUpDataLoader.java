@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 @Component
 public class SetUpDataLoader implements ApplicationListener<ContextRefreshedEvent> {
     // Flag for launch or not the fixtures
-    boolean alreadySetup = true;
+    boolean alreadySetup = false;
 
     // Autowiring is used for use dependency injection directly from  property instead of use a constructor
     @Autowired

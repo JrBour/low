@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Configuration
 @RestController
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable int id){
+    public User getUser(@PathVariable UUID id){
         return this.userService.findById(id);
     }
 
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remove(@PathVariable int id) {
+    public ResponseEntity<Void> remove(@PathVariable UUID id) {
         this.userService.deleteById(id);
 
         return ResponseEntity.noContent().build();

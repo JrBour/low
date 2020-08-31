@@ -33,7 +33,7 @@ public class ControllerAdvisor  extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handlePSQLException(ConstraintViolationException ex, WebRequest req) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("error", "Constraint violation");
-//        String message = NestedExceptionUtils.getMostSpecificCause(ex).getMessage();
+
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, req);
     }
 

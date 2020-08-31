@@ -1,11 +1,12 @@
 package jrbour.blog.service;
 
 import jrbour.blog.dao.UserDao;
-import jrbour.blog.exception.NotFoundException;
+import jrbour.blog.exception.NotFoundUUIDException;
 import jrbour.blog.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -16,8 +17,8 @@ public class UserService {
         this.repository = repository;
     }
 
-    public User findById(Integer id){
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException(id, "user"));
+    public User findById(UUID id){
+        return this.repository.findById(id).orElseThrow(() -> new NotFoundUUIDException(id, "user"));
     }
 
     public User save(User entity){
@@ -28,10 +29,10 @@ public class UserService {
         return this.repository.findAll();
     }
 
-    public void deleteById(Integer id){
+    public void deleteById(UUID id){
         if(this.repository.existsById(id))
             this.repository.deleteById(id);
         else
-            throw new NotFoundException(id, "user");
+            throw new NotFoundUUIDException(id, "user");
     }
 }

@@ -3,6 +3,7 @@ package jrbour.blog.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.validation.constraints.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name="users")
@@ -17,8 +19,12 @@ import java.util.Date;
 public class User {
 
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(generator="UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private UUID id;
 
     @Email
     @Column(length=254, unique=true)
@@ -48,12 +54,8 @@ public class User {
         this.role = role;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getEmail() {
