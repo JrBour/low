@@ -4,13 +4,17 @@ import jrbour.blog.dao.UserDao;
 import jrbour.blog.exception.EmailNotFoundException;
 import jrbour.blog.exception.NotFoundUUIDException;
 import jrbour.blog.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserDao repository;
 
@@ -18,12 +22,13 @@ public class UserService {
         this.repository = repository;
     }
 
-    public User loadUserByEmail(String email) throws EmailNotFoundException {
+    public UserDetails loadUserByEmail(String email) throws EmailNotFoundException {
         User user = this.repository.findByEmail(email);
         if (user == null) {
             throw new EmailNotFoundException(email);
         }
-        return user;
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                new ArrayList<>());
     }
 
     public User findByEmail(String email){
@@ -47,5 +52,15 @@ public class UserService {
             this.repository.deleteById(id);
         else
             throw new NotFoundUUIDException(id, "user");
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = this.repository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException(email);
+        }
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                new ArrayList<>());
     }
 }

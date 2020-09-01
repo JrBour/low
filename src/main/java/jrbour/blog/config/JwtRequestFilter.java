@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jrbour.blog.service.UserService;
 import jrbour.blog.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,20 +15,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.javainuse.service.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+    private UserService userService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
@@ -49,7 +49,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.userService.loadUserByEmail(username);
             // if token is valid configure Spring Security to manually set authentication
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

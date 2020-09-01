@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class UserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -58,10 +59,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody JwtRequest jwtRequest) throws Exception{
         this.authenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
+        UserDetails userDetails = userService.loadUserByUsername(jwtRequest.getEmail());
+        String token = jwtTokenUtil.generateToken(userDetails);
 
-//        String token = jwtTokenUtil.generateToken();
-
-        return ResponseEntity.ok("coucou");
+        return ResponseEntity.ok(token);
     }
 
     private void authenticate(String email, String password) throws Exception {
@@ -74,11 +75,11 @@ public class UserController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<User> addUser(@Valid @RequestBody User user){
         Role role = this.roleService.findById(user.getRole().getId());
         user.setRole(role);
-        user.setPassword(this.passwordEncoder().encode(user.getPassword()));
+        user.setPassword(this.bCryptPasswordEncoder().encode(user.getPassword()));
         User userAdded = this.userService.save(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.findById(userAdded.getId()));

@@ -1,9 +1,9 @@
 package jrbour.blog.model;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 
-@Entity
-public class JwtRequest {
+public class JwtRequest implements Serializable {
     private String email;
     private String password;
 
