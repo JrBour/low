@@ -1,6 +1,7 @@
 package jrbour.blog.service;
 
 import jrbour.blog.dao.UserDao;
+import jrbour.blog.exception.EmailNotFoundException;
 import jrbour.blog.exception.NotFoundUUIDException;
 import jrbour.blog.model.User;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,18 @@ public class UserService {
 
     public UserService(UserDao repository) {
         this.repository = repository;
+    }
+
+    public User loadUserByEmail(String email) throws EmailNotFoundException {
+        User user = this.repository.findByEmail(email);
+        if (user == null) {
+            throw new EmailNotFoundException(email);
+        }
+        return user;
+    }
+
+    public User findByEmail(String email){
+        return this.repository.findByEmail(email);
     }
 
     public User findById(UUID id){

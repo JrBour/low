@@ -19,4 +19,6 @@ public interface UserDao extends JpaRepository<User, UUID> {
 
     @Override
     boolean existsById(UUID integer);
+
+    User findByEmail(String email);
 }
