@@ -1,6 +1,7 @@
 package jrbour.blog.controller;
 
 import jrbour.blog.model.JwtRequest;
+import jrbour.blog.model.JwtResponse;
 import jrbour.blog.model.Role;
 import jrbour.blog.model.User;
 import jrbour.blog.service.RoleService;
@@ -57,12 +58,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody JwtRequest jwtRequest) throws Exception{
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody JwtRequest jwtRequest) throws Exception{
         this.authenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
         UserDetails userDetails = userService.loadUserByUsername(jwtRequest.getEmail());
         String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
     private void authenticate(String email, String password) throws Exception {
