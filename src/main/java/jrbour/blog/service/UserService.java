@@ -4,6 +4,7 @@ import jrbour.blog.dao.UserDao;
 import jrbour.blog.exception.EmailNotFoundException;
 import jrbour.blog.exception.NotFoundUUIDException;
 import jrbour.blog.model.User;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -60,7 +61,11 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                new ArrayList<>());
+
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getName());
+        List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+        authorities.add(authority);
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 }

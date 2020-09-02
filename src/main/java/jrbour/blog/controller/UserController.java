@@ -16,13 +16,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,16 +64,21 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody JwtRequest jwtRequest) throws Exception{
-        this.authenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
+        Authentication authentication = this.authenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
         UserDetails userDetails = userService.loadUserByUsername(jwtRequest.getEmail());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Collection<SimpleGrantedAuthority> userAuthorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        System.out.println(userAuthorities);
         String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    private void authenticate(String email, String password) throws Exception {
+    private Authentication authenticate(String email, String password) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch(DisabledException ex){
             throw new Exception("DISABLED_USER", ex);
         } catch(AuthenticationException ex){
