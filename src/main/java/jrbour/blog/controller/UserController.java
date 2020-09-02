@@ -26,7 +26,7 @@ import java.util.UUID;
 
 @Configuration
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1")
 public class UserController {
 
     @Autowired
@@ -51,7 +51,7 @@ public class UserController {
         return this.userService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public User getUser(@PathVariable UUID id){
         return this.userService.findById(id);
     }
@@ -85,7 +85,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.findById(userAdded.getId()));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> remove(@PathVariable UUID id) {
         this.userService.deleteById(id);
 
