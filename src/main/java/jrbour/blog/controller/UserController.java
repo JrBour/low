@@ -1,5 +1,6 @@
 package jrbour.blog.controller;
 
+import jrbour.blog.exception.InvalidCredentialsException;
 import jrbour.blog.model.JwtRequest;
 import jrbour.blog.model.JwtResponse;
 import jrbour.blog.model.Role;
@@ -72,8 +73,7 @@ public class UserController {
         } catch(DisabledException ex){
             throw new Exception("DISABLED_USER", ex);
         } catch(AuthenticationException ex){
-            System.out.println(email);
-            throw new Exception("INVALID_CREDENTIALS", ex);
+            throw new InvalidCredentialsException();
         }
     }
 

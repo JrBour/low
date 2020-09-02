@@ -37,6 +37,14 @@ public class ControllerAdvisor  extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, req);
     }
 
+    @ExceptionHandler(InvalidCredentialsException.class)
+    protected ResponseEntity<Object> handleInvalidCredentialsException(InvalidCredentialsException ex, WebRequest req) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("error", ex.getMessage());
+
+        return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.UNAUTHORIZED, req);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
     MethodArgumentNotValidException ex,
