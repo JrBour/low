@@ -1,10 +1,16 @@
 package jrbour.blog.model;
 
-import javax.persistence.Entity;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class JwtRequest implements Serializable {
+
+    @Email
+    @NotNull
     private String email;
+
+    @NotNull
     private String password;
 
     public JwtRequest() {}

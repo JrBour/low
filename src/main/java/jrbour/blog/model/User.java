@@ -27,6 +27,7 @@ public class User {
     private UUID id;
 
     @Email
+    @NotNull
     @Column(length=254, unique=true)
     private String email;
 

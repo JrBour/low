@@ -72,6 +72,7 @@ public class UserController {
         } catch(DisabledException ex){
             throw new Exception("DISABLED_USER", ex);
         } catch(AuthenticationException ex){
+            System.out.println(email);
             throw new Exception("INVALID_CREDENTIALS", ex);
         }
     }
