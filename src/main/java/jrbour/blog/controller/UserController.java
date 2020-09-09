@@ -66,11 +66,6 @@ public class UserController {
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody JwtRequest jwtRequest) throws Exception{
         Authentication authentication = this.authenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
         UserDetails userDetails = userService.loadUserByUsername(jwtRequest.getEmail());
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        Collection<SimpleGrantedAuthority> userAuthorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-
-        System.out.println(userAuthorities);
         String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
